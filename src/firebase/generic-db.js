@@ -136,7 +136,7 @@ export default class GenericDB {
 
     return {
       ...obj,
-      newObj
+      ...newObj
     }
   }
 }
