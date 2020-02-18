@@ -72,7 +72,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vuelidate'],
+  plugins: [
+    '~/plugins/vuelidate',
+    { src: '~/plugins/vuex-persist', ssr: false }
+  ],
 
   /*
    ** Nuxt.js dev-modules

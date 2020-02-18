@@ -1,3 +1,5 @@
+import VuexPersistence from 'vuex-persist'
+
 function initialState() {
   return {
     tasks: []
@@ -27,3 +29,13 @@ export const getters = {
     return state.tasks
   }
 }
+
+function salut() {
+  if (process.client) {
+    return new VuexPersistence().plugin
+  } else {
+    return []
+  }
+}
+
+export const plugins = salut()

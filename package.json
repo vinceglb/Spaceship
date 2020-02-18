@@ -36,7 +36,8 @@
     "nuxt": "^2.11.0",
     "nuxt-fire": "^3.5.5",
     "vuedraggable": "^2.23.2",
-    "vuelidate": "^0.7.5"
+    "vuelidate": "^0.7.5",
+    "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
