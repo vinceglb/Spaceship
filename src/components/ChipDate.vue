@@ -65,8 +65,8 @@ export default {
       this.$emit('select-date', this.date)
     },
     reset() {
-      this.$refs.dialog.save(null)
       this.date = null
+      this.click()
     }
   }
 }
