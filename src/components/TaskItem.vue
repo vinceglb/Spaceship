@@ -1,8 +1,8 @@
 <template>
-  <v-card ripple class="mb-2">
+  <v-card ripple class="mb-2" @click="onCardClicked">
     <v-list-item>
       <v-list-item-action>
-        <v-checkbox color="primary" class="ml-2"></v-checkbox>
+        <v-checkbox v-model="check" color="primary" class="ml-2"></v-checkbox>
       </v-list-item-action>
       <v-list-item-content>
         <v-list-item-title>{{ titre }}</v-list-item-title>
@@ -16,10 +16,19 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import dateformat from 'dateformat'
 
 export default {
   props: {
+    id: {
+      type: String,
+      required: true
+    },
+    done: {
+      type: Boolean,
+      required: true
+    },
     titre: {
       type: String,
       required: true
@@ -37,6 +46,15 @@ export default {
   computed: {
     afficheDescr() {
       return this.startDate || this.endDate
+    },
+
+    check: {
+      get() {
+        return this.done
+      },
+      set() {
+        this.checkAction()
+      }
     }
   },
 
@@ -56,7 +74,21 @@ export default {
       } else {
         return ''
       }
-    }
+    },
+
+    checkAction() {
+      this.setDoneInverse(this.id)
+    },
+
+    onCardClicked() {
+      this.$router.push({
+        path: '/task/' + this.id
+      })
+    },
+
+    ...mapMutations({
+      setDoneInverse: 'task/setDoneInverse'
+    })
   }
 }
 </script>

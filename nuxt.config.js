@@ -32,7 +32,7 @@ export default {
     workbox: {
       /* workbox options */
       // dev: true,
-      importScripts: ['firebase-auth-sw.js']
+      // importScripts: ['firebase-auth-sw.js']
     }
   },
 

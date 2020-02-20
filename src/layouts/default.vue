@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       // Titre
-      title: 'DoIt 💪',
+      title: 'DoIt 🚀',
 
       // Permet de gérer le drawer
       drawer: false,

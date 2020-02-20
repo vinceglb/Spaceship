@@ -5,11 +5,7 @@
         <v-container>
           <!-- Elements importants -->
           <v-row align="center">
-            <v-col
-              cols="1"
-              style="min-width: 50px; max-width: 100%;"
-              class="flex-grow-1 flex-shrink-0"
-            >
+            <v-col cols="1" class="flex-grow-1 flex-shrink-0 textfield">
               <!-- Champ de texte pour le titre -->
               <v-text-field
                 v-model="titre"
@@ -110,5 +106,10 @@ export default {
 .rounded-card {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+}
+
+.textfield {
+  min-width: 50px;
+  max-width: 100%;
 }
 </style>

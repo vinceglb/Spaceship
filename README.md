@@ -113,6 +113,10 @@ See here : <https://console.firebase.google.com/u/0/project/[project-id]/authent
 
 - [Tutorial](https://dev.to/kiritchoukc/deploy-nuxt-on-firebase-4ad8)
 
+### Vuex ⛷
+
+- [Vue.js and Vuex - best practices for managing your state](https://gist.github.com/DawidMyslak/2b046cca5959427e8fb5c1da45ef7748)
+
 -----
 
 ## Création d'un nouveau projet
