@@ -31,7 +31,7 @@ export default {
 
   data: () => ({
     // Titre modifié par l'utilisateur
-    tempTitre: null
+    tempTitre: ''
   }),
 
   computed: {
@@ -44,10 +44,8 @@ export default {
 
     titre: {
       get() {
-        console.log('vince 1')
-        if (this.tempTitre == null) {
-          console.log('vince 2', this.task)
-          // Si le tempTitre est null, on met celui de la tâche actuelle
+        if (this.tempTitre === '') {
+          // Si le tempTitre est vide, on met celui de la tâche actuelle
           return this.task.titre
         } else {
           // On met le titre que l'utilisateur est en train de modifier
@@ -55,7 +53,7 @@ export default {
         }
       },
       set(newTitre) {
-        if (this.tempTitre === '') {
+        if (newTitre === '') {
           // Si l'utilisateur supprime, le titre, on remet l'ancien
           this.tempTitre = this.task.titre
         } else {
