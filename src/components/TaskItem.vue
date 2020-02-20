@@ -1,14 +1,14 @@
 <template>
-  <v-card ripple class="mb-2" @click="onCardClicked">
+  <v-card ripple class="mb-2">
     <v-list-item>
       <v-list-item-action>
         <v-checkbox v-model="check" color="primary" class="ml-2"></v-checkbox>
       </v-list-item-action>
-      <v-list-item-content>
-        <v-list-item-title>{{ titre }}</v-list-item-title>
+      <v-list-item-content @click="onCardClicked">
+        <v-list-item-title>{{ task.titre }}</v-list-item-title>
         <v-list-item-subtitle v-if="afficheDescr" class="mt-2">
           <v-icon small>mdi-calendar</v-icon>
-          {{ formatDate(startDate, endDate) }}
+          {{ task.formatDate() }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -16,41 +16,25 @@
 </template>
 
 <script>
+import Task from '~/model/Task'
 import { mapMutations } from 'vuex'
-import dateformat from 'dateformat'
 
 export default {
   props: {
-    id: {
-      type: String,
+    task: {
+      type: Task,
       required: true
-    },
-    done: {
-      type: Boolean,
-      required: true
-    },
-    titre: {
-      type: String,
-      required: true
-    },
-    startDate: {
-      type: String,
-      default: null
-    },
-    endDate: {
-      type: String,
-      default: null
     }
   },
 
   computed: {
     afficheDescr() {
-      return this.startDate || this.endDate
+      return this.task.startDate || this.task.endDate
     },
 
     check: {
       get() {
-        return this.done
+        return this.task.done
       },
       set() {
         this.checkAction()
@@ -59,30 +43,13 @@ export default {
   },
 
   methods: {
-    formatDate(startDate, endDate) {
-      // const d = new Date(date)
-      if (startDate && endDate) {
-        return (
-          dateformat(startDate, 'd mmm.') +
-          ' - ' +
-          dateformat(endDate, 'd mmm.')
-        )
-      } else if (startDate) {
-        return 'Débute le ' + dateformat(startDate, 'd mmm.')
-      } else if (endDate) {
-        return 'Pour le ' + dateformat(endDate, 'd mmm.')
-      } else {
-        return ''
-      }
-    },
-
     checkAction() {
-      this.setDoneInverse(this.id)
+      this.setDoneInverse(this.task.id)
     },
 
     onCardClicked() {
       this.$router.push({
-        path: '/task/' + this.id
+        path: '/task/' + this.task.id
       })
     },
 

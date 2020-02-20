@@ -2,48 +2,29 @@
   <v-row column justify-center align-center>
     <v-col xs12 sm8 md6>
       <!-- Liste de tâche -->
-      <task-item v-for="element in tasks2" :key="element.id" v-bind="element" />
+      <task-item v-for="task in tasks" :key="task.id" :task="task" />
 
-      <!-- Bouton Fab -->
-      <v-btn id="fab" large fab dark color="primary" @click="openBottomSheet">
-        <v-icon dark>mdi-plus</v-icon>
-      </v-btn>
-
-      <!-- Bottom sheet -->
-      <task-create-bottom-sheet ref="bottomSheet" />
+      <!-- Bottom sheet with fab -->
+      <task-bottom-sheet :my-day="false" />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import TaskItem from '~/components/TaskItem'
-import TaskCreateBottomSheet from '~/components/TaskCreateBottomSheet'
 import { mapGetters } from 'vuex'
+import TaskItem from '~/components/TaskItem'
+import TaskBottomSheet from '~/components/TaskCreateBottomSheetWithFab'
 
 export default {
   components: {
     TaskItem,
-    TaskCreateBottomSheet
+    TaskBottomSheet
   },
 
   computed: {
     ...mapGetters({
-      tasks2: 'task/getAllTasks'
+      tasks: 'task/getAllTasks'
     })
-  },
-
-  methods: {
-    openBottomSheet() {
-      this.$refs.bottomSheet.open()
-    }
   }
 }
 </script>
-
-<style scoped>
-#fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-</style>

@@ -1,3 +1,4 @@
+import Task from '~/model/Task'
 import VuexPersistence from 'vuex-persist'
 
 function initialState() {
@@ -14,17 +15,15 @@ export const mutations = {
    * @param {{ titre: string; description: string; startDate: Date; endDate: Date; priorite: any; }} data
    */
   createTask(state, data) {
-    const generateId = ID()
-    state.tasks.push({
-      id: generateId,
-      done: false,
-
-      titre: data.titre,
-      description: data.description,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      priorite: data.priorite
-    })
+    const task = new Task(
+      data.titre,
+      data.description,
+      data.startDate,
+      data.endDate,
+      data.priorite,
+      data.myDay
+    )
+    state.tasks.push(task)
   },
 
   setDoneInverse(state, id) {
@@ -39,13 +38,47 @@ export const mutations = {
 }
 
 export const getters = {
+  /**
+   * @returns {Task}
+   */
   getAllTasks: (state) => {
     return state.tasks
   },
 
   getTaskById: (state) => (id) => {
-    console.log('getTaskById ok')
     return state.tasks.find((task) => task.id === id)
+  },
+
+  getMyDayTasks: (state) => {
+    return state.tasks.filter((task) => task.myDay === true)
+  },
+
+  /* getTasksForToday: (state) => {
+    const now = getNow()
+
+    return state.tasks.filter((task) => {
+      if (task.startDate == null && task.endDate != null) {
+        const end = new Date(task.endDate)
+        return now <= end
+      } else if (task.startDate != null && task.endDate == null) {
+        const start = new Date(task.startDate)
+        return now >= start
+      } else if (task.startDate != null && task.endDate != null) {
+        const start = new Date(task.startDate)
+        const end = new Date(task.endDate)
+        return now >= start && now <= end
+      } else {
+        return false
+      }
+    })
+  }, */
+
+  getOverdueTasks: (state) => {
+    return state.tasks.filter((task) => task.isOverdue() === true)
+  },
+
+  getTasksForToday: (state) => {
+    return state.tasks.filter((task) => task.isEndDateToday() === true)
   }
 }
 
@@ -66,12 +99,3 @@ function salut() {
 }
 
 export const plugins = salut()
-
-const ID = function() {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
-  return Math.random()
-    .toString(36)
-    .substr(2, 9)
-}

@@ -63,6 +63,13 @@ export default {
     ChipDate
   },
 
+  props: {
+    myDay: {
+      type: Boolean,
+      required: true
+    }
+  },
+
   data: () => ({
     valid: true,
     titre: null,
@@ -83,7 +90,8 @@ export default {
           titre: this.titre,
           description: this.description,
           startDate: this.startDate,
-          endDate: this.endDate
+          endDate: this.endDate,
+          myDay: this.myDay
         })
         this.reset()
       }
