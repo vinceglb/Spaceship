@@ -1,3 +1,9 @@
+// import { initialiseStores } from '~/utils/store-accessor'
+
+/* const init = (store) => initialiseStores(store)
+export const plugins = [init]
+export * from '~/utils/store-accessor' */
+
 export const actions = {
   /**
    * Cette méthode est appellée à chaque initialisation de Vuex
@@ -18,6 +24,7 @@ export const actions = {
    * https://firebase.google.com/docs/auth/admin/custom-claims#propagate_custom_claims_to_the_client
    */
   handleSuccessfulAuthentication({ dispatch }, { authUser }) {
+    console.log('handleSuccessfulAuthentication', authUser)
     this.$fireAuth.currentUser.getIdTokenResult().then((result) => {
       dispatch('auth/signIn', result.claims)
     })

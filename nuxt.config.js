@@ -13,7 +13,7 @@ const firebaseConfig = {
 export default {
   mode: 'universal',
   srcDir: 'src',
-  buildDir: 'functions/.nuxt',
+  // buildDir: 'functions/.nuxt',
 
   /*
    ** Permet de définir l'adresse du serveur en local
@@ -73,8 +73,9 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/vuelidate',
-    { src: '~/plugins/vuex-persist', ssr: false }
+    // '~/plugins/vuelidate'
+    // { src: '~/plugins/vuex-persist', ssr: false }
+    { src: '~/plugins/localStorage.js', ssr: false }
   ],
 
   /*
@@ -83,7 +84,8 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxt/typescript-build'
   ],
 
   /*
@@ -164,7 +166,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extractCSS: true,
-    extend(config, ctx) {}
+    extractCSS: true
+    // extend(config, ctx) {}
   }
 }

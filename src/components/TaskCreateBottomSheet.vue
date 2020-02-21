@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import ChipDate from '~/components/ChipDate'
 import { mapMutations } from 'vuex'
+import ChipDate from '~/components/ChipDate'
 
 export default {
   components: {

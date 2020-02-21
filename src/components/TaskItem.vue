@@ -15,25 +15,26 @@
   </v-card>
 </template>
 
-<script>
-import Task from '~/model/Task'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import { mapMutations } from 'vuex'
+import Task from '~/model/Task'
 
-export default {
+export default Vue.extend({
   props: {
     task: {
-      type: Task,
+      type: Object,
       required: true
-    }
+    } as PropOptions<Task>
   },
 
   computed: {
-    afficheDescr() {
-      return this.task.startDate || this.task.endDate
+    afficheDescr(): boolean {
+      return this.task.startDate != null || this.task.endDate != null
     },
 
     check: {
-      get() {
+      get(): boolean {
         return this.task.done
       },
       set() {
@@ -57,5 +58,5 @@ export default {
       setDoneInverse: 'task/setDoneInverse'
     })
   }
-}
+})
 </script>

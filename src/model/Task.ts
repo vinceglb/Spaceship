@@ -1,19 +1,32 @@
 import dateformat from 'dateformat'
 
 export default class Task {
-  constructor(titre, description, startDate, endDate, priorite, myDay) {
+  id: string
+  done: boolean
+  titre: string
+  description: string | null
+  startDate: string | null
+  endDate: string | null
+  myDay: boolean
+  // priorite:
+
+  constructor(
+    titre: string,
+    description: string | null,
+    startDate: string | null,
+    endDate: string | null,
+    myDay: boolean
+  ) {
     this.id = generateId()
     this.done = false
-
     this.titre = titre
     this.description = description
     this.startDate = startDate
     this.endDate = endDate
-    this.priorite = priorite
     this.myDay = myDay
   }
 
-  isOverdue() {
+  isOverdue(): boolean {
     const now = getNow()
     if (this.endDate != null) {
       const end = new Date(this.endDate)
@@ -23,7 +36,7 @@ export default class Task {
     }
   }
 
-  isEndDateToday() {
+  isEndDateToday(): boolean {
     const now = getNow()
     if (this.endDate != null) {
       const end = new Date(this.endDate)
@@ -33,7 +46,7 @@ export default class Task {
     }
   }
 
-  isStartDateToday() {
+  isStartDateToday(): boolean {
     const now = getNow()
     if (this.startDate != null) {
       const start = new Date(this.startDate)
@@ -43,7 +56,7 @@ export default class Task {
     }
   }
 
-  formatDate() {
+  formatDate(): string {
     if (this.startDate && this.endDate) {
       return (
         getStrFromDate(this.startDate) + ' - ' + getStrFromDate(this.endDate)
@@ -58,14 +71,14 @@ export default class Task {
   }
 }
 
-function getNow() {
+function getNow(): Date {
   const dateNow = new Date()
   const strNow = dateformat(dateNow, 'yyyy-mm-dd')
   const now = new Date(strNow)
   return now
 }
 
-function getStrFromDate(strDate) {
+function getStrFromDate(strDate: string): string {
   const now = getNow()
   const demain = addDays(now, 1)
   const hier = addDays(now, -1)
@@ -82,13 +95,13 @@ function getStrFromDate(strDate) {
   }
 }
 
-function addDays(oldDate, days) {
+function addDays(oldDate: Date, days: number): Date {
   const date = new Date(oldDate.valueOf())
   date.setDate(date.getDate() + days)
   return date
 }
 
-function generateId() {
+function generateId(): string {
   // Math.random should be unique because of its seeding algorithm.
   // Convert it to base 36 (numbers + letters), and grab the first 9 characters
   // after the decimal.

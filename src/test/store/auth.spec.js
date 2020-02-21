@@ -104,14 +104,14 @@ describe('actions', () => {
     const error = { message: 'Test bro', code: 42 }
     actions.$fireAuth = {
       signOut() {
-        return new Promise((resolve) => {
+        return new Promise(() => {
           // eslint-disable-next-line no-throw-literal
           throw error
         })
       }
     }
 
-    global.console.error = (p1, p2) => {
+    global.console.error = (p1) => {
       expect(p1).toBe('Erreur')
     }
     global.alert = (yo) => {

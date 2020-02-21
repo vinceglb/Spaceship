@@ -10,12 +10,13 @@
   </v-row>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import TaskItem from '~/components/TaskItem'
-import TaskBottomSheet from '~/components/TaskCreateBottomSheetWithFab'
+import TaskItem from '~/components/TaskItem.vue'
+import TaskBottomSheet from '~/components/TaskCreateBottomSheetWithFab.vue'
 
-export default {
+export default Vue.extend({
   components: {
     TaskItem,
     TaskBottomSheet
@@ -26,5 +27,5 @@ export default {
       tasks: 'task/getAllTasks'
     })
   }
-}
+})
 </script>

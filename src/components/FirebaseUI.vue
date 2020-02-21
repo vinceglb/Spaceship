@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     signInResult(authResult, redirectUrl) {
+      console.log('yo mec', authResult, redirectUrl)
       this.openAppPage()
       return false
     },

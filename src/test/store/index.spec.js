@@ -26,7 +26,7 @@ describe('actions', () => {
 
   test('nuxtServerInit without verified auth user', () => {
     // mocking
-    const dispatch = jest.fn((path, payload) => {})
+    const dispatch = jest.fn((/* path, payload */) => {})
     const context = {
       res: {}
     }
