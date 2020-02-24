@@ -1,63 +1,47 @@
 <template>
   <v-card ripple class="mb-2">
     <v-list-item>
+      <!-- Partie de gauche -->
       <v-list-item-action>
+        <!-- Checkbox -->
         <v-checkbox
-          v-if="bob === false"
+          v-if="addMyDay === false"
           v-model="check"
           color="primary"
           class="ml-2"
-        ></v-checkbox>
+        />
+
+        <!-- Bouton pour ajouter à "Ma journée" -->
         <v-btn v-else text icon color="primary" @click="addButtonClicked">
           <v-icon v-if="task.myDay === false">mdi-plus</v-icon>
           <v-icon v-else>mdi-minus</v-icon>
         </v-btn>
       </v-list-item-action>
-      <v-list-item-content>
-        <v-list-item-title @click="onCardClicked">{{
-          task.titre
-        }}</v-list-item-title>
-        <v-list-item-subtitle v-if="afficheDescr" class="mt-2">
-          <v-dialog
-            ref="dialog"
-            v-model="modal"
-            :return-value.sync="date"
-            persistent
-            width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-if="task.startDate"
-                rounded
-                outlined
-                small
-                class="text-none salut"
-                v-on="on"
-              >
-                <v-icon left>mdi-calendar</v-icon>{{ task.formatStartDate() }}
-              </v-btn>
-            </template>
-            <v-date-picker
-              v-model="date"
-              :show-current="task.startDate"
-              scrollable
-            >
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="modal = false">Annuler</v-btn>
-              <v-btn text color="primary" @click="todo">OK</v-btn>
-            </v-date-picker>
-          </v-dialog>
 
-          <!-- TODO -->
-          <v-btn
-            v-if="task.endDate"
-            rounded
-            outlined
+      <!-- Contenu de la carte -->
+      <v-list-item-content>
+        <!-- Titre de la tâche -->
+        <v-list-item-title @click="onCardClicked">
+          {{ task.titre }}
+        </v-list-item-title>
+
+        <!-- Sous le titre -->
+        <v-list-item-subtitle v-if="afficheDescr" class="mt-2">
+          <chip-date
+            v-if="startDate !== null"
             small
-            class="ml-1 text-none salut"
-          >
-            <v-icon left>mdi-calendar-check</v-icon>{{ task.formatEndDate() }}
-          </v-btn>
+            icon="mdi-calendar"
+            :format-date="formatStartDate()"
+            :date.sync="startDate"
+          />
+
+          <chip-date
+            v-if="endDate !== null"
+            small
+            icon="mdi-calendar-check"
+            :format-date="formatEndDate()"
+            :date.sync="endDate"
+          />
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -66,71 +50,112 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { mapMutations } from 'vuex'
+import { getModule } from 'vuex-module-decorators'
+// import { mapMutations } from 'vuex'
+import dateUtil from '~/utils/dateUtil'
 import Task from '~/model/Task'
+import TaskStore from '~/store/task'
+import ChipDate from '~/components/ChipDate.vue'
 
 export default Vue.extend({
+  components: {
+    ChipDate
+  },
+
   props: {
+    /**
+     * La tâche a afficher
+     */
     task: {
       type: Object,
       required: true
     } as PropOptions<Task>,
 
-    bob: {
+    /**
+     * Permet de mettre des icones sur la gauche au lieu du check
+     */
+    addMyDay: {
       type: Boolean,
       default: false
     } as PropOptions<boolean>
   },
 
-  data: () => ({
-    date: null,
-    modal: false
-  }),
+  data() {
+    return {
+      taskStore: getModule(TaskStore, this.$store)
+    }
+  },
 
   computed: {
     afficheDescr(): boolean {
       return this.task.startDate != null || this.task.endDate != null
     },
 
+    /**
+     * Permet de changer si la tâche est faite ou pas
+     */
     check: {
       get(): boolean {
         return this.task.done
       },
-      set() {
-        this.checkAction()
+      set(): void {
+        this.taskStore.setDoneInverse(this.task.id)
+      }
+    },
+
+    /**
+     * Permet de changer la startDate
+     */
+    startDate: {
+      get(): string | null {
+        return this.task.startDate
+      },
+      set(newValue: string): void {
+        this.taskStore.setStartDate({ id: this.task.id, startDate: newValue })
+      }
+    },
+
+    /**
+     * Permet de changer la endDate
+     */
+    endDate: {
+      get(): string | null {
+        return this.task.endDate
+      },
+      set(newValue: string): void {
+        this.taskStore.setEndDate({ id: this.task.id, endDate: newValue })
       }
     }
   },
 
   methods: {
-    checkAction() {
-      this.setDoneInverse(this.task.id)
-    },
-
-    onCardClicked() {
+    /**
+     * Permet d'aller sur la page de la tâche
+     * pour voir les détails
+     */
+    onCardClicked(): void {
       this.$router.push({ path: '/task/' + this.task.id })
     },
 
-    addButtonClicked() {
-      this.setMyDayInverse(this.task.id)
+    /**
+     * Permet d'ajouter la tâche à "Ma journée"
+     */
+    addButtonClicked(): void {
+      this.taskStore.setMyDayInverse(this.task.id)
     },
 
-    todo() {
-      this.modal = false
-      this.setStartDate({ id: this.task.id, startDate: this.date })
-    },
+    /**
+     * Permet de formater les dates correctement
+     */
+    formatStartDate: () => (date: string) => dateUtil.formatStartDate(date),
+    formatEndDate: () => (date: string) => dateUtil.formatEndDate(date)
 
-    ...mapMutations({
+    /* ...mapMutations({
       setDoneInverse: 'task/setDoneInverse',
       setMyDayInverse: 'task/setMyDayInverse',
-      setStartDate: 'task/setStartDate'
-    })
+      setStartDate: 'task/setStartDate',
+      setEndDate: 'task/setEndDate'
+    }) */
   }
 })
 </script>
-
-<style scoped>
-.salut {
-  letter-spacing: normal;
-}
-</style>

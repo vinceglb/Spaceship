@@ -9,15 +9,10 @@
           </v-col>
         </v-row>
 
-        <v-row v-if="overdueTasks.length > 0">
+        <v-row v-if="myDayTasks.length > 0">
           <v-col>
             <h2>Tâches du jour</h2>
-            <task-item
-              v-for="task in myDayTasks"
-              :key="task.id"
-              :task="task"
-              :bob="false"
-            />
+            <task-item v-for="task in myDayTasks" :key="task.id" :task="task" />
           </v-col>
         </v-row>
 
@@ -28,7 +23,7 @@
               v-for="task in overdueTasks"
               :key="task.id"
               :task="task"
-              :bob="true"
+              add-my-day
             />
           </v-col>
         </v-row>
@@ -41,7 +36,7 @@
               v-for="task in todayTasks"
               :key="task.id"
               :task="task"
-              :bob="true"
+              add-my-day
             />
           </v-col>
         </v-row>
@@ -54,7 +49,7 @@
               v-for="task in onGoingTasks"
               :key="task.id"
               :task="task"
-              :bob="true"
+              add-my-day
             />
           </v-col>
         </v-row>
@@ -67,7 +62,7 @@
       </v-container>
 
       <!-- Bottom sheet with fab -->
-      <task-bottom-sheet :my-day="true" />
+      <task-bottom-sheet my-day />
     </v-col>
   </v-row>
 </template>

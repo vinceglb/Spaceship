@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-sheet v-model="sheet">
+  <v-bottom-sheet v-model="sheet" :retain-focus="false">
     <v-sheet class="rounded-card">
       <v-form ref="formTask" v-model="valid" @submit.prevent>
         <v-container>
@@ -34,16 +34,20 @@
                 <chip-date
                   ref="chip1"
                   label="Date de début"
-                  icone="mdi-calendar-check-outline"
+                  icon="mdi-calendar-check-outline"
+                  closable
+                  primary
                   :format-date="formatStartDate()"
-                  @select-date="startDate = $event"
+                  :date.sync="startDate"
                 />
                 <chip-date
                   ref="chip2"
                   label="Date d'échéance"
-                  icone="mdi-calendar-text-outline"
+                  icon="mdi-calendar-text-outline"
+                  closable
+                  primary
                   :format-date="formatEndDate()"
-                  @select-date="endDate = $event"
+                  :date.sync="endDate"
                 />
               </v-chip-group>
             </v-col>
@@ -54,12 +58,13 @@
   </v-bottom-sheet>
 </template>
 
-<script>
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import { mapMutations } from 'vuex'
-import dateUtil from '../utils/dateUtil'
-import ChipDate from '~/components/ChipDate'
+import dateUtil from '~/utils/dateUtil'
+import ChipDate from '~/components/ChipDate.vue'
 
-export default {
+export default Vue.extend({
   components: {
     ChipDate
   },
@@ -68,7 +73,7 @@ export default {
     myDay: {
       type: Boolean,
       required: true
-    }
+    } as PropOptions<boolean>
   },
 
   data: () => ({
@@ -80,16 +85,16 @@ export default {
   }),
 
   methods: {
-    open() {
-      this.sheet = true
+    open(): void {
+      this.sheet = !this.sheet
     },
 
-    save() {
-      if (this.$refs.formTask.validate()) {
+    save(): void {
+      if ((this.$refs.formTask as any).validate()) {
         this.sheet = false
         this.saveTask({
           titre: this.titre,
-          description: this.description,
+          // description: this.description,
           startDate: this.startDate,
           endDate: this.endDate,
           myDay: this.myDay
@@ -98,29 +103,24 @@ export default {
       }
     },
 
-    reset() {
-      this.$refs.formTask.reset()
-      this.$refs.chip1.reset()
-      this.$refs.chip2.reset()
+    reset(): void {
+      const form = this.$refs.formTask as any
+      const chip1 = this.$refs.chip1 as any
+      const chip2 = this.$refs.chip2 as any
+      form.reset()
+      chip1.reset()
+      chip2.reset()
     },
 
-    formatStartDate() {
-      return function(date) {
-        return dateUtil.formatStartDate(date)
-      }
-    },
+    formatStartDate: () => (date: string) => dateUtil.formatStartDate(date),
 
-    formatEndDate() {
-      return function(date) {
-        return dateUtil.formatEndDate(date)
-      }
-    },
+    formatEndDate: () => (date: string) => dateUtil.formatEndDate(date),
 
     ...mapMutations({
       saveTask: 'task/createTask'
     })
   }
-}
+})
 </script>
 
 <style scoped>
