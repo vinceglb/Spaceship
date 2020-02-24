@@ -1,4 +1,4 @@
-import dateformat from 'dateformat'
+import dateUtil, { Temps } from '~/utils/dateUtil'
 
 export default class Task {
   id: string
@@ -27,7 +27,7 @@ export default class Task {
   }
 
   isOverdue(): boolean {
-    const now = getNow()
+    const now = dateUtil.getNow()
     if (this.endDate != null) {
       const end = new Date(this.endDate)
       return now > end && this.done === false
@@ -37,7 +37,7 @@ export default class Task {
   }
 
   isEndDateToday(): boolean {
-    const now = getNow()
+    const now = dateUtil.getNow()
     if (this.endDate != null) {
       const end = new Date(this.endDate)
       return now.getTime() === end.getTime() && this.done === false
@@ -47,7 +47,7 @@ export default class Task {
   }
 
   isStartDateToday(): boolean {
-    const now = getNow()
+    const now = dateUtil.getNow()
     if (this.startDate != null) {
       const start = new Date(this.startDate)
       return now.getTime() === start.getTime() && this.done === false
@@ -56,49 +56,46 @@ export default class Task {
     }
   }
 
+  isOnGoing(): boolean {
+    const now = dateUtil.getNow()
+    if (this.startDate != null && this.endDate != null) {
+      const start = new Date(this.startDate)
+      const end = new Date(this.endDate)
+      return now >= start && now <= end && this.done === false
+    } else if (this.startDate != null && this.endDate == null) {
+      const start = new Date(this.startDate)
+      return now >= start && this.done === false
+    } else if (this.startDate == null && this.endDate != null) {
+      const end = new Date(this.endDate)
+      return now < end && this.done === false
+    } else {
+      return false
+    }
+  }
+
   formatDate(): string {
     if (this.startDate && this.endDate) {
       return (
-        getStrFromDate(this.startDate) + ' - ' + getStrFromDate(this.endDate)
+        dateUtil.getStrFromDate(this.startDate).str +
+        ' - ' +
+        dateUtil.getStrFromDate(this.endDate).str
       )
     } else if (this.startDate) {
-      return 'Débute ' + getStrFromDate(this.startDate)
+      return this.formatStartDate()
     } else if (this.endDate) {
-      return 'Pour ' + getStrFromDate(this.endDate)
+      return this.formatEndDate()
     } else {
       return ''
     }
   }
-}
 
-function getNow(): Date {
-  const dateNow = new Date()
-  const strNow = dateformat(dateNow, 'yyyy-mm-dd')
-  const now = new Date(strNow)
-  return now
-}
-
-function getStrFromDate(strDate: string): string {
-  const now = getNow()
-  const demain = addDays(now, 1)
-  const hier = addDays(now, -1)
-  const date = new Date(strDate)
-
-  if (now.getTime() === date.getTime()) {
-    return "aujourd'hui"
-  } else if (demain.getTime() === date.getTime()) {
-    return 'demain'
-  } else if (hier.getTime() === date.getTime()) {
-    return 'hier'
-  } else {
-    return dateformat(date, 'd mmm.')
+  formatStartDate(): string {
+    return dateUtil.formatStartDate(this.startDate)
   }
-}
 
-function addDays(oldDate: Date, days: number): Date {
-  const date = new Date(oldDate.valueOf())
-  date.setDate(date.getDate() + days)
-  return date
+  formatEndDate(): string {
+    return dateUtil.formatEndDate(this.endDate)
+  }
 }
 
 function generateId(): string {

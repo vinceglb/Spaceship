@@ -20,7 +20,7 @@ export default {
    */
   server: {
     // port: 8000, // par défaut: 3000
-    // host: '192.168.1.44' // par défaut: localhost
+    // host: '192.168.1.21' // par défaut: localhost
   },
 
   /**

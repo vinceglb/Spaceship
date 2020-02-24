@@ -12,7 +12,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { getModule } from 'vuex-module-decorators'
+import Task from '~/model/Task'
+import TaskStore from '~/store/task'
 import TaskItem from '~/components/TaskItem.vue'
 import TaskBottomSheet from '~/components/TaskCreateBottomSheetWithFab.vue'
 
@@ -22,10 +24,16 @@ export default Vue.extend({
     TaskBottomSheet
   },
 
+  data() {
+    return {
+      salut: getModule(TaskStore, this.$store)
+    }
+  },
+
   computed: {
-    ...mapGetters({
-      tasks: 'task/getAllTasks'
-    })
+    tasks(): Task[] {
+      return this.salut.getAllTasks
+    }
   }
 })
 </script>

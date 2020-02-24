@@ -5,6 +5,7 @@ export default ({ store }) => {
   window.onNuxtReady(() => {
     createPersistedState({
       arrayMerger(_, saved) {
+        console.log('salut', saved)
         return saved.map(
           (task) =>
             new Task(

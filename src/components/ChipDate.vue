@@ -9,15 +9,23 @@
     <template v-slot:activator="{ on }">
       <v-chip
         :outlined="date !== null ? false : true"
-        :color="date !== null ? 'primary' : null"
+        :color="date !== null ? 'primary' : 'black'"
         :close="date !== null ? true : false"
         class="mr-2"
         v-on="on"
         @click:close="date = null"
       >
         <v-icon left>{{ icone }}</v-icon>
-        {{ bob }}
+        {{ format }}
       </v-chip>
+
+      <!-- TEST : Au lieu d'un chip, c'est un bouton
+
+      <v-btn rounded outlined small class="text-none salut" v-on="on">
+        <v-icon left>{{ icone }}</v-icon>
+        {{ format }}
+      </v-btn>
+      -->
     </template>
     <v-date-picker v-model="date" scrollable>
       <v-spacer></v-spacer>
@@ -34,12 +42,12 @@ export default {
       type: String,
       required: true
     },
-    labelSelection: {
+    icone: {
       type: String,
       required: true
     },
-    icone: {
-      type: String,
+    formatDate: {
+      type: Function,
       required: true
     }
   },
@@ -50,11 +58,11 @@ export default {
   }),
 
   computed: {
-    bob() {
+    format() {
       if (this.date === null) {
         return this.label
       } else {
-        return this.labelSelection + ' ' + this.date.substr(0, 10)
+        return this.formatDate(this.date) // this.labelSelection + ' ' + this.date.substr(0, 10)
       }
     }
   },

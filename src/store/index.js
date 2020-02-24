@@ -1,8 +1,8 @@
-// import { initialiseStores } from '~/utils/store-accessor'
+import { initialiseStores } from '~/utils/store-accessor'
 
-/* const init = (store) => initialiseStores(store)
+const init = (store) => initialiseStores(store)
 export const plugins = [init]
-export * from '~/utils/store-accessor' */
+export * from '~/utils/store-accessor'
 
 export const actions = {
   /**

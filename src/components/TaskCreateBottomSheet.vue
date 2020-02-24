@@ -34,15 +34,15 @@
                 <chip-date
                   ref="chip1"
                   label="Date de début"
-                  label-selection="Début"
                   icone="mdi-calendar-check-outline"
+                  :format-date="formatStartDate()"
                   @select-date="startDate = $event"
                 />
                 <chip-date
                   ref="chip2"
                   label="Date d'échéance"
-                  label-selection="Échéance"
                   icone="mdi-calendar-text-outline"
+                  :format-date="formatEndDate()"
                   @select-date="endDate = $event"
                 />
               </v-chip-group>
@@ -56,6 +56,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import dateUtil from '../utils/dateUtil'
 import ChipDate from '~/components/ChipDate'
 
 export default {
@@ -101,6 +102,18 @@ export default {
       this.$refs.formTask.reset()
       this.$refs.chip1.reset()
       this.$refs.chip2.reset()
+    },
+
+    formatStartDate() {
+      return function(date) {
+        return dateUtil.formatStartDate(date)
+      }
+    },
+
+    formatEndDate() {
+      return function(date) {
+        return dateUtil.formatEndDate(date)
+      }
     },
 
     ...mapMutations({

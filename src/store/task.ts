@@ -6,7 +6,8 @@ import Task from '~/model/Task'
 @Module({
   name: 'task',
   stateFactory: true,
-  namespaced: true
+  namespaced: true,
+  preserveState: true
 })
 export default class TaskStore extends VuexModule {
   tasks: Task[] = []
@@ -34,10 +35,40 @@ export default class TaskStore extends VuexModule {
   }
 
   @Mutation
+  setMyDayInverse(id: string) {
+    const task = this.tasks.find((task) => task.id === id)
+    if (task) {
+      task.myDay = !task.myDay
+    } else {
+      console.warn(`La tâche avec l'id #${id} n'existe pas`)
+    }
+  }
+
+  @Mutation
   setTitre({ id, titre }: { id: string; titre: string }) {
     const task = this.tasks.find((task) => task.id === id)
     if (task) {
       task.titre = titre
+    } else {
+      console.warn(`La tâche avec l'id #${id} n'existe pas`)
+    }
+  }
+
+  @Mutation
+  setStartDate({ id, startDate }: { id: string; startDate: string }) {
+    const task = this.tasks.find((task) => task.id === id)
+    if (task) {
+      task.startDate = startDate
+    } else {
+      console.warn(`La tâche avec l'id #${id} n'existe pas`)
+    }
+  }
+
+  @Mutation
+  setEndDate({ id, endDate }: { id: string; endDate: string }) {
+    const task = this.tasks.find((task) => task.id === id)
+    if (task) {
+      task.endDate = endDate
     } else {
       console.warn(`La tâche avec l'id #${id} n'existe pas`)
     }
@@ -59,6 +90,10 @@ export default class TaskStore extends VuexModule {
     return this.tasks.filter((task) => task.isEndDateToday() === true)
   }
 
+  get getTasksOnGoing(): Task[] {
+    return this.tasks.filter((task) => task.isOnGoing() === true)
+  }
+
   /**
    * TODO à voir le type de retour
    */
@@ -69,6 +104,8 @@ export default class TaskStore extends VuexModule {
     }
   }
 }
+
+// export default getModule(TaskStore)
 
 /* function salut() {
   if (process.client) {
