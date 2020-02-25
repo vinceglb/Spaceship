@@ -49,6 +49,6 @@ export default Vue.extend({
 
 #v-card-text-style {
   height: 70%;
-  padding: 16px;
+  padding: 0px;
 }
 </style>
