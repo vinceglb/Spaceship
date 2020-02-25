@@ -166,7 +166,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extractCSS: true
+    // extractCSS: true
     // extend(config, ctx) {}
   }
 }
