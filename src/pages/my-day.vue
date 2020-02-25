@@ -16,7 +16,7 @@
           </v-col>
         </v-row>
 
-        <v-row v-if="overdueTasks.length > 0">
+        <!--<v-row v-if="overdueTasks.length > 0">
           <v-col>
             <h2>Tâches en retard</h2>
             <task-item
@@ -30,7 +30,6 @@
 
         <v-row v-if="todayTasks.length > 0">
           <v-col>
-            <!-- Liste de tâche -->
             <h2>Tâches à finir pour aujourd'hui</h2>
             <task-item
               v-for="task in todayTasks"
@@ -43,7 +42,6 @@
 
         <v-row v-if="onGoingTasks.length > 0">
           <v-col>
-            <!-- Liste de tâche -->
             <h2>Tâches en cours</h2>
             <task-item
               v-for="task in onGoingTasks"
@@ -52,7 +50,11 @@
               add-my-day
             />
           </v-col>
-        </v-row>
+        </v-row>-->
+
+        <v-btn @click="$refs.bs.open()">
+          Salut
+        </v-btn>
 
         <v-row>
           <v-col>
@@ -63,6 +65,7 @@
 
       <!-- Bottom sheet with fab -->
       <task-bottom-sheet my-day />
+      <task-bottom-sheet-my-day />
     </v-col>
   </v-row>
 </template>
@@ -72,6 +75,7 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import TaskItem from '~/components/TaskItem.vue'
 import TaskBottomSheet from '~/components/TaskCreateBottomSheetWithFab.vue'
+import TaskBottomSheetMyDay from '~/components/TaskMyDayBottomSheetWithButton.vue'
 import TaskSearch from '~/components/TaskSearch.vue'
 import TaskStore from '~/store/task'
 import Task from '~/model/Task'
@@ -80,7 +84,8 @@ export default Vue.extend({
   components: {
     TaskItem,
     TaskBottomSheet,
-    TaskSearch
+    TaskSearch,
+    TaskBottomSheetMyDay
   },
 
   data() {

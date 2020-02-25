@@ -1,4 +1,4 @@
-import dateUtil, { Temps } from '~/utils/dateUtil'
+import dateUtil from '~/utils/dateUtil'
 
 export default class Task {
   id: string

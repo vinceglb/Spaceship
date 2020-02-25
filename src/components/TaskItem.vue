@@ -51,7 +51,6 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import { getModule } from 'vuex-module-decorators'
-// import { mapMutations } from 'vuex'
 import dateUtil from '~/utils/dateUtil'
 import Task from '~/model/Task'
 import TaskStore from '~/store/task'
@@ -149,13 +148,6 @@ export default Vue.extend({
      */
     formatStartDate: () => (date: string) => dateUtil.formatStartDate(date),
     formatEndDate: () => (date: string) => dateUtil.formatEndDate(date)
-
-    /* ...mapMutations({
-      setDoneInverse: 'task/setDoneInverse',
-      setMyDayInverse: 'task/setMyDayInverse',
-      setStartDate: 'task/setStartDate',
-      setEndDate: 'task/setEndDate'
-    }) */
   }
 })
 </script>

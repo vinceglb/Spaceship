@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Bouton Fab -->
-    <v-btn id="fab" large fab dark color="primary" @click="openBottomSheet">
+    <v-btn id="fab" fab dark color="primary" @click="openBottomSheet">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
 

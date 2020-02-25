@@ -1,61 +1,59 @@
 <template>
-  <v-bottom-sheet v-model="sheet" :retain-focus="false">
-    <v-sheet class="rounded-card">
-      <v-form ref="formTask" v-model="valid" @submit.prevent>
-        <v-container>
-          <!-- Elements importants -->
-          <v-row align="center">
-            <v-col cols="1" class="flex-grow-1 flex-shrink-0 textfield">
-              <!-- Champ de texte pour le titre -->
-              <v-text-field
-                v-model="titre"
-                solo
-                flat
-                label="Ajouter une tâche"
-                required
-                hide-details
-                :rules="[(v) => !!v || 'Le nom de la tâche est requis']"
-                @keyup.enter="save"
-              ></v-text-field>
-            </v-col>
+  <bottom-sheet ref="bs">
+    <v-form ref="formTask" v-model="valid" @submit.prevent>
+      <v-container>
+        <!-- Elements importants -->
+        <v-row align="center">
+          <v-col cols="1" class="flex-grow-1 flex-shrink-0 textfield">
+            <!-- Champ de texte pour le titre -->
+            <v-text-field
+              v-model="titre"
+              solo
+              flat
+              label="Ajouter une tâche"
+              required
+              hide-details
+              :rules="[(v) => !!v || 'Le nom de la tâche est requis']"
+              @keyup.enter="save"
+            ></v-text-field>
+          </v-col>
 
-            <!-- Bouton enregistrer -->
-            <v-col cols="auto" class="flex-grow-0 flex-shrink-0">
-              <v-btn fab color="primary" :disabled="!valid" @click="save">
-                <v-icon>mdi-arrow-up-box</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
+          <!-- Bouton enregistrer -->
+          <v-col cols="auto" class="flex-grow-0 flex-shrink-0">
+            <v-btn fab color="primary" :disabled="!valid" @click="save">
+              <v-icon>mdi-arrow-up-box</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
 
-          <!-- Elements secondaires -->
-          <v-row>
-            <v-col>
-              <v-chip-group column>
-                <chip-date
-                  ref="chip1"
-                  label="Date de début"
-                  icon="mdi-calendar-check-outline"
-                  closable
-                  primary
-                  :format-date="formatStartDate()"
-                  :date.sync="startDate"
-                />
-                <chip-date
-                  ref="chip2"
-                  label="Date d'échéance"
-                  icon="mdi-calendar-text-outline"
-                  closable
-                  primary
-                  :format-date="formatEndDate()"
-                  :date.sync="endDate"
-                />
-              </v-chip-group>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-form>
-    </v-sheet>
-  </v-bottom-sheet>
+        <!-- Elements secondaires -->
+        <v-row>
+          <v-col>
+            <v-chip-group column>
+              <chip-date
+                ref="chip1"
+                label="Date de début"
+                icon="mdi-calendar-check-outline"
+                closable
+                primary
+                :format-date="formatStartDate()"
+                :date.sync="startDate"
+              />
+              <chip-date
+                ref="chip2"
+                label="Date d'échéance"
+                icon="mdi-calendar-text-outline"
+                closable
+                primary
+                :format-date="formatEndDate()"
+                :date.sync="endDate"
+              />
+            </v-chip-group>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
+  </bottom-sheet>
 </template>
 
 <script lang="ts">
@@ -63,10 +61,12 @@ import Vue, { PropOptions } from 'vue'
 import { mapMutations } from 'vuex'
 import dateUtil from '~/utils/dateUtil'
 import ChipDate from '~/components/ChipDate.vue'
+import BottomSheet from '~/components/BottomSheet.vue'
 
 export default Vue.extend({
   components: {
-    ChipDate
+    ChipDate,
+    BottomSheet
   },
 
   props: {
@@ -80,25 +80,28 @@ export default Vue.extend({
     valid: true,
     titre: null,
     startDate: null,
-    endDate: null,
-    sheet: false
+    endDate: null
   }),
 
   methods: {
     open(): void {
-      this.sheet = !this.sheet
+      ;(this.$refs.bs as any).open()
     },
 
     save(): void {
       if ((this.$refs.formTask as any).validate()) {
-        this.sheet = false
+        // Ferme le bottom sheet
+        ;(this.$refs.bs as any).close()
+
+        // Enregistre la tâche
         this.saveTask({
           titre: this.titre,
-          // description: this.description,
           startDate: this.startDate,
           endDate: this.endDate,
           myDay: this.myDay
         })
+
+        // Réinit le formulaire
         this.reset()
       }
     },
