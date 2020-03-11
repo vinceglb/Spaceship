@@ -20,7 +20,7 @@ export default {
    */
   server: {
     // port: 8000, // par défaut: 3000
-    // host: '192.168.1.21' // par défaut: localhost
+    // host: '192.168.1.44' // par défaut: localhost
   },
 
   /**
@@ -95,7 +95,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    'nuxt-fire'
+    '@nuxtjs/firebase'
   ],
 
   /*
@@ -130,7 +130,7 @@ export default {
    ** Nuxt Fire configuration
    ** https://github.com/lupas/nuxt-fire
    */
-  fire: {
+  firebase: {
     config: {
       apiKey: firebaseConfig.apiKey,
       authDomain: firebaseConfig.authDomain,
