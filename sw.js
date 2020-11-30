@@ -1,4 +1,4 @@
-const options = {"workboxURL":"https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.3/workbox/workbox-sw.js","importScripts":[],"config":{"debug":false},"clientsClaim":true,"skipWaiting":true,"cleanupOutdatedCaches":true,"offlineAnalytics":false,"preCaching":["/Spaceship/?standalone=true","/Spaceship/?standalone=true"],"runtimeCaching":[{"urlPattern":"/Spaceship/_nuxt/","handler":"CacheFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/Spaceship/","handler":"NetworkFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/Spaceship/_nuxt/","handler":"CacheFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/Spaceship/","handler":"NetworkFirst","method":"GET","strategyPlugins":[]}],"offlinePage":null,"pagesURLPattern":"/Spaceship/","offlineStrategy":"NetworkFirst"}
+const options = {"workboxURL":"https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.4/workbox/workbox-sw.js","importScripts":[],"config":{"debug":false},"cacheOptions":{"cacheId":"spaceship-prod","directoryIndex":"/","revision":"cE0Z5QdgQtNB"},"clientsClaim":true,"skipWaiting":true,"cleanupOutdatedCaches":true,"offlineAnalytics":false,"preCaching":[{"revision":"cE0Z5QdgQtNB","url":"/Spaceship/?standalone=true&revision=cE0Z5QdgQtNB"},{"revision":"cE0Z5QdgQtNB","url":"/Spaceship/?standalone=true&revision=cE0Z5QdgQtNB"}],"runtimeCaching":[{"urlPattern":"/Spaceship/_nuxt/","handler":"CacheFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/Spaceship/","handler":"NetworkFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/Spaceship/_nuxt/","handler":"CacheFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/Spaceship/","handler":"NetworkFirst","method":"GET","strategyPlugins":[]}],"offlinePage":null,"pagesURLPattern":"/Spaceship/","offlineStrategy":"NetworkFirst"}
 
 importScripts(...[options.workboxURL, ...options.importScripts])
 
@@ -49,6 +49,7 @@ function precacheAssets(workbox, options) {
     workbox.precaching.precacheAndRoute(options.preCaching, options.cacheOptions)
   }
 }
+
 
 function runtimeCaching(workbox, options) {
   for (const entry of options.runtimeCaching) {
