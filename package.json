@@ -23,7 +23,7 @@
     "firebase": "^7.24.0",
     "firebaseui": "^4.7.1",
     "is_js": "^0.9.0",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.9"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",
