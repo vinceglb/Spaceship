@@ -15,7 +15,7 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^2.0.0",
+    "@nuxt/typescript-runtime": "^2.1.0",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/firebase": "^7.4.1",
     "@nuxtjs/pwa": "^3.0.2",
