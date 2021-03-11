@@ -11,7 +11,7 @@ const firebaseConfig = {
 }
 
 export default {
-  mode: 'universal',
+  // mode: 'universal',
   srcDir: 'src',
   // buildDir: 'functions/.nuxt',
 
@@ -145,9 +145,9 @@ export default {
       auth: {
         // Experimental Feature, use with caution.
         initialize: {
-          onSuccessAction: 'handleSuccessfulAuthentication',
-          ssr: true
-        }
+          onAuthStateChangedAction: 'onAuthStateChangedAction'
+        },
+        ssr: false
       },
       firestore: true
     }

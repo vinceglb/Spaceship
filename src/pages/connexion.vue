@@ -13,7 +13,7 @@ li {
 </style>
 
 <script>
-import FirebaseUi from '~/components/FirebaseUi'
+import FirebaseUi from '@/components/FirebaseUIVince'
 
 export default {
   name: 'Login',

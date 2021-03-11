@@ -23,10 +23,11 @@ export const actions = {
    * On va récupérer le userClaims pour avoir les claims
    * https://firebase.google.com/docs/auth/admin/custom-claims#propagate_custom_claims_to_the_client
    */
-  handleSuccessfulAuthentication({ dispatch }, { authUser }) {
-    console.log('handleSuccessfulAuthentication', authUser)
-    this.$fireAuth.currentUser.getIdTokenResult().then((result) => {
-      dispatch('auth/signIn', result.claims)
-    })
+  onAuthStateChangedAction({ dispatch }, { authUser, claims }) {
+    if (authUser && claims) {
+      dispatch('auth/signIn', { authUser, claims })
+    } else {
+      // TODO faire la déconnexion
+    }
   }
 }
