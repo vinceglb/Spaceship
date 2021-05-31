@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/axios": "^5.13.5",
     "@nuxtjs/firebase": "^7.4.1",
     "@nuxtjs/pwa": "^3.0.2",
     "core-js": "^3.8.0",
