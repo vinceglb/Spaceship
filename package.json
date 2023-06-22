@@ -22,7 +22,7 @@
     "firebase": "9.22.2",
     "firebaseui": "6.0.2",
     "is_js": "0.9.0",
-    "nuxt": "2.15.8"
+    "nuxt": "3.4.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.22.5",
